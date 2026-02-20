@@ -23,8 +23,8 @@ const Dashboard = () => {
                     <h2>GMR Bank</h2>
                 </div>
                 <div className="user-profile" onClick={() => navigate('/profile')}>
-                    <span>Good Morning, <strong>{user.name}</strong></span>
-                    <div className="avatar">{user?.name.charAt(0).toUpperCase()}</div>
+                    <span>Good Morning, <strong>{user?.name || 'Guest'}</strong></span>
+                    <div className="avatar">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</div>
                 </div>
             </header>
 

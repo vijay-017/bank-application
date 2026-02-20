@@ -1,8 +1,13 @@
 import '../styles/pages/Signup.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import { useState } from 'react';
 function Signup() {
+
+    const [msg, setMsg] = useState("");
+    const [msgType, setMsgType] = useState(""); // "" | "success" | "error"
+    const [userData, setUserData] = useState(null);
+    const navigate = useNavigate();
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -11,17 +16,31 @@ function Signup() {
         const phoneNo = e.target.phone.value;
         const password = e.target.password.value;
 
-        console.log(name ,email, phoneNo ,password);
-
-        axios.post("http://localhost:9090/customers",{
+        axios.post("http://localhost:9090/customers", {
             name,
             email,
             phoneNo,
             password
         }).then(response => {
-            console.log(response.data);
-        }).catch(error =>{
-            console.log(error)
+            setMsgType("success");
+            setMsg(response.data.message || "Signup successful! Welcome.");
+
+            // Construct a robust user object for the dashboard
+            const createdUser = response.data.customer || response.data;
+            if (typeof createdUser === 'object' && createdUser !== null) {
+                setUserData({
+                    name: name,
+                    email: email,
+                    phoneNo: phoneNo,
+                    ...createdUser
+                });
+            } else {
+                setUserData({ name, email, phoneNo });
+            }
+        }).catch(error => {
+            console.log(error);
+            setMsg("Signup failed. Please try again.");
+            setMsgType("error");
         })
     }
     return (
@@ -38,12 +57,12 @@ function Signup() {
 
                     <div className="form-group">
                         <label htmlFor="email">Email Address</label>
-                        <input type="email" id="email" placeholder="name@example.com"/>
+                        <input type="email" id="email" placeholder="name@example.com" />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="phone">Phone Number</label>
-                        <input type="number" id="phone" placeholder="1234567890" required/>
+                        <input type="number" id="phone" placeholder="1234567890" required />
                     </div>
 
                     <div className="form-group">
@@ -56,7 +75,25 @@ function Signup() {
                         <input type="password" id="confirm" placeholder="Confirm password" required />
                     </div>
 
-                    <button type="submit">Sign Up</button>
+                    {msg && (
+                        <div className={`signup-message ${msgType}`}>
+                            {msg}
+                        </div>
+                    )}
+
+                    {msgType === "success" ? (
+                        <button
+                            type="button"
+                            onClick={() => navigate("/dashboard", { state: userData })}
+                            style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
+                        >
+                            Continue to Dashboard
+                        </button>
+                    ) : (
+                        <button type="submit">Sign Up</button>
+                    )}
+
+
                 </form>
 
                 <div className="footer">

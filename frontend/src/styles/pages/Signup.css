@@ -178,3 +178,38 @@ button:active {
 .footer a:hover {
     border-bottom-color: var(--primary);
 }
+
+/* Signup Messages */
+.signup-message {
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1rem;
+    width: 100%;
+    animation: messageFadeIn 0.3s ease-out forwards;
+}
+
+.signup-message.success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.signup-message.error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+@keyframes messageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

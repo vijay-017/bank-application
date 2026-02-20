@@ -4,7 +4,11 @@ import axios from 'axios';
 import { useState } from "react";
 
 function Login() {
+    const [msg, setMsg] = useState("");
+    const [msgType, setMsgType] = useState(""); // "" | "success" | "error"
+
     const [id, setId] = useState("");
+    const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
 
     const handleLoginClick = async (e) => {
@@ -13,10 +17,14 @@ function Login() {
         await axios.get(`http://localhost:9090/customers/${id}`)
             .then(response => {
                 const user = response.data;
-                navigate("/dashboard", { state : user});
+                setUserData(user);
+                setMsg("Login successful! Welcome back.");
+                setMsgType("success");
             })
             .catch(error => {
                 console.log(error);
+                setMsg("Login failed. Please check your credentials.");
+                setMsgType("error");
             })
     }
 
@@ -38,7 +46,23 @@ function Login() {
                         <input type="password" id="password" placeholder="••••••••" required />
                     </div>
 
-                    <button type="submit">Sign In</button>
+                    {msg && (
+                        <div className={`login-message ${msgType}`}>
+                            {msg}
+                        </div>
+                    )}
+
+                    {msgType === "success" ? (
+                        <button
+                            type="button"
+                            onClick={() => navigate("/dashboard", { state: userData })}
+                            style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
+                        >
+                            Continue to Dashboard
+                        </button>
+                    ) : (
+                        <button type="submit">Sign In</button>
+                    )}
                 </form>
 
                 <div className="footer">
