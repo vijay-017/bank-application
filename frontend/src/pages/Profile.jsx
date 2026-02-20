@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/pages/Profile.css';
 
 const Profile = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const user = location.state || {}; // Get user from state
+
     const [activeTab, setActiveTab] = useState('personal');
 
     const [personalInfo, setPersonalInfo] = useState({
-        firstName: 'Alex',
-        lastName: 'Morgan',
-        email: 'alex.morgan@example.com',
-        phone: '+1 (555) 123-4567',
-        address: '125 Financial District, New York, NY'
+        firstName: user.name?.split(' ')[0] || 'Guest',
+        lastName: user.name?.split(' ').slice(1).join(' ') || '',
+        email: user.email || 'guest@example.com',
+        phone: user.phoneNo || '',
+        address: user.address || 'Address not set'
     });
 
     const [passwordData, setPasswordData] = useState({
@@ -149,8 +152,8 @@ const Profile = () => {
             {/* Sidebar */}
             <aside className="profile-sidebar">
                 <div className="profile-card glass-panel">
-                    <div className="profile-avatar">A</div>
-                    <h3 className="profile-name">Alex Morgan</h3>
+                    <div className="profile-avatar">{personalInfo.firstName.charAt(0).toUpperCase()}</div>
+                    <h3 className="profile-name">{personalInfo.firstName} {personalInfo.lastName}</h3>
                     <span className="profile-role">Premium User</span>
                 </div>
 

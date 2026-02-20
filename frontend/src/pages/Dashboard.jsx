@@ -22,7 +22,7 @@ const Dashboard = () => {
                 <div className="logo-section">
                     <h2>GMR Bank</h2>
                 </div>
-                <div className="user-profile" onClick={() => navigate('/profile')}>
+                <div className="user-profile" onClick={() => navigate('/profile', { state: user })}>
                     <span>Good Morning, <strong>{user?.name || 'Guest'}</strong></span>
                     <div className="avatar">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</div>
                 </div>
@@ -35,7 +35,7 @@ const Dashboard = () => {
                     {/* Balance Card */}
                     <div className="balance-card">
                         <div className="balance-label">Total Balance</div>
-                        <div className="balance-amount">${user?.balance?.toFixed(2) || "0.00"}</div>
+                        <div className="balance-amount">{user?.balance?.toFixed(2) || "0.00"}</div>
                         <div className="card-actions">
                             <button className="card-btn">Add Money</button>
                             <button className="card-btn">Send</button>
