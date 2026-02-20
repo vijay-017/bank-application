@@ -1,15 +1,19 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import '../styles/pages/AccountSummary.css';
 
 const AccountSummary = () => {
+    const location = useLocation();
+    const user = location.state || {}; // Get user from state
+
     // Mock Data
     const accountDetails = {
-        accountHolder: "Alex Morgan",
-        accountNumber: "4598 2300 1122 8899",
-        accountType: "Savings Premium",
-        status: "Active",
-        currency: "USD",
-        openDate: "Aug 15, 2023"
+        accountHolder: user.name || "Guest",
+        accountNumber: user.id || "4598 2300 1122 8899",
+        accountType: user.accountType || "Savings Premium",
+        status: user.status || "Active",
+        currency: "INR",
+        openDate: user.openDate || "Aug 15, 2023"
     };
 
     const branchDetails = {

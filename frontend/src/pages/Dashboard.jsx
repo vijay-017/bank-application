@@ -58,7 +58,7 @@ const Dashboard = () => {
                                 <div className="action-icon">📱</div>
                                 <span className="action-label">Recharge</span>
                             </div>
-                            <div className="action-item" onClick={() => navigate('/account-summary')}>
+                            <div className="action-item" onClick={() => navigate('/account-summary', { state: user })}>
                                 <div className="action-icon">💳</div>
                                 <span className="action-label">Account Info</span>
                             </div>
