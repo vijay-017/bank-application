@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { formatTransactionDate } from '../utils/dateFormatter';
 import '../styles/pages/TransactionHistory.css';
 
@@ -34,7 +36,46 @@ const TransactionHistory = () => {
         });
 
     const handleDownloadPDF = () => {
-        window.print();
+        const doc = new jsPDF();
+
+        // Add Header
+        doc.setFontSize(22);
+        doc.setTextColor(40, 40, 40);
+        doc.text('GMR Bank', 14, 22);
+
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Transaction History Statement', 14, 30);
+        doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 38);
+        if (user?.name) {
+            doc.text(`Customer: ${user.name}`, 14, 46);
+        }
+
+        // Add Table
+        const tableColumn = ["Transaction", "Category", "Date", "Status", "Amount"];
+        const tableRows = [];
+
+        filteredTransactions.forEach(t => {
+            const transactionData = [
+                t.title || t.description,
+                t.category || (t.type === 'DEPOSIT' ? 'Finance' : 'Transfer'),
+                formatTransactionDate(t.date),
+                t.status || 'Success',
+                `${t.type === 'DEPOSIT' ? '+' : '-'}$${t.amount.toFixed(2)}`
+            ];
+            tableRows.push(transactionData);
+        });
+
+        autoTable(doc, {
+            head: [tableColumn],
+            body: tableRows,
+            startY: 55,
+            theme: 'grid',
+            headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+            alternateRowStyles: { fillColor: [245, 247, 251] },
+        });
+
+        doc.save(`gmr_bank_statement_${Date.now()}.pdf`);
     };
 
     return (
