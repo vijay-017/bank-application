@@ -158,11 +158,11 @@ table.transactions-table {
     font-family: 'Inter', sans-serif;
 }
 
-.amount.credit {
+.amount.DEPOSIT {
     color: #10b981;
 }
 
-.amount.debit {
+.amount.WITHDRAWAL {
     color: var(--text-primary);
 }
 

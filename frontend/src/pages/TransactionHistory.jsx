@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { formatTransactionDate } from '../utils/dateFormatter';
 import '../styles/pages/TransactionHistory.css';
 
 const TransactionHistory = () => {
-    // Mock Data
-    const allTransactions = [
-        { id: 1, date: '2026-02-08', title: 'Netflix Subscription', type: 'debit', amount: 15.99, status: 'completed', category: 'Entertainment' },
-        { id: 2, date: '2026-02-07', title: 'Salary Deposit', type: 'credit', amount: 3500.00, status: 'completed', category: 'Salary' },
-        { id: 3, date: '2026-02-06', title: 'Grocery Store', type: 'debit', amount: 64.20, status: 'completed', category: 'Food' },
-        { id: 4, date: '2026-02-05', title: 'Electric Bill', type: 'debit', amount: 120.50, status: 'completed', category: 'Utilities' },
-        { id: 5, date: '2026-02-04', title: 'Freelance Payment', type: 'credit', amount: 450.00, status: 'pending', category: 'Freelance' },
-        { id: 6, date: '2026-02-04', title: 'Coffee Shop', type: 'debit', amount: 5.50, status: 'completed', category: 'Food' },
-        { id: 7, date: '2026-02-03', title: 'Amazon Purchase', type: 'debit', amount: 89.99, status: 'completed', category: 'Shopping' },
-        { id: 8, date: '2026-02-01', title: 'Gym Membership', type: 'debit', amount: 45.00, status: 'failed', category: 'Health' },
-    ];
+    const location = useLocation();
+    const user = location.state || null;
+    const [allTransactions, setAllTransactions] = useState([]);
+
+    useEffect(() => {
+        if (user?.id) {
+            axios.get(`http://localhost:9090/transaction/${user.id}`)
+                .then(response => {
+                    setAllTransactions(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }, [user?.id]);
 
     const [filterType, setFilterType] = useState('all');
     const [filterDate, setFilterDate] = useState('');
 
     // Filter Logic
-    const filteredTransactions = allTransactions.filter(t => {
-        const matchesType = filterType === 'all' || t.type === filterType;
-        const matchesDate = filterDate === '' || t.date === filterDate;
-        return matchesType && matchesDate;
-    });
+    const filteredTransactions = allTransactions
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .filter(t => {
+            const matchesType = filterType === 'all' || t.type === filterType;
+            const matchesDate = filterDate === '' || t.date === filterDate;
+            return matchesType && matchesDate;
+        });
 
     const handleDownloadPDF = () => {
         window.print();
@@ -102,7 +110,7 @@ const TransactionHistory = () => {
                                     <td>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div className="t-icon-small">
-                                                {t.type === 'credit' ? '↓' : '↑'}
+                                                {t.type === 'DEPOSIT' ? '↓' : '↑'}
                                             </div>
                                             <span style={{ fontWeight: '500' }}>{t.title}</span>
                                         </div>
@@ -116,7 +124,7 @@ const TransactionHistory = () => {
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
                                         <span className={`amount ${t.type}`}>
-                                            {t.type === 'credit' ? '+' : '-'}${t.amount.toFixed(2)}
+                                            {t.type === 'DEPOSIT' ? '+' : '-'}${t.amount.toFixed(2)}
                                         </span>
                                     </td>
                                 </tr>
