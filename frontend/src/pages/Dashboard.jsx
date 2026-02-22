@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { formatTransactionDate } from '../utils/dateFormatter';
 import '../styles/pages/Dashboard.css';
 
 const Dashboard = () => {
@@ -9,7 +10,7 @@ const Dashboard = () => {
     const user = location.state || {}; // Fallback to empty object if state is undefined
     const navigate = useNavigate();
     // Mock Data
-    const [recentTransactions,setRecentTransactions] = useState([]);
+    const [recentTransactions, setRecentTransactions] = useState([]);
 
     useEffect(() => {
         axios.get(`http://localhost:9090/transaction/${user.id}`)
@@ -100,7 +101,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="t-details">
                                             <h4>{t.description}</h4>
-                                            <span className="t-date">{t.date}</span>
+                                            <span className="t-date">{formatTransactionDate(t.date)}</span>
                                         </div>
                                     </div>
                                     <span className={`t-amount ${t.type === 'DEPOSIT' ? 'positive' : 'negative'}`}>

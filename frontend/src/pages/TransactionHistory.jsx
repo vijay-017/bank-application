@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatTransactionDate } from '../utils/dateFormatter';
 import '../styles/pages/TransactionHistory.css';
 
 const TransactionHistory = () => {
@@ -107,7 +108,7 @@ const TransactionHistory = () => {
                                         </div>
                                     </td>
                                     <td>{t.category}</td>
-                                    <td>{t.date}</td>
+                                    <td>{formatTransactionDate(t.date)}</td>
                                     <td>
                                         <span className={`status-pill status-${t.status}`}>
                                             {t.status}
