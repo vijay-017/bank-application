@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/pages/Dashboard.css';
 
@@ -8,12 +9,21 @@ const Dashboard = () => {
     const user = location.state || {}; // Fallback to empty object if state is undefined
     const navigate = useNavigate();
     // Mock Data
-    const recentTransactions = [
-        { id: 1, title: 'Netflix Subscription', date: 'Today, 10:23 AM', amount: -15.99, type: 'debit' },
-        { id: 2, title: 'Salary Deposit', date: 'Yesterday, 9:00 AM', amount: 3500.00, type: 'credit' },
-        { id: 3, title: 'Grocery Store', date: 'Feb 24, 2026', amount: -64.20, type: 'debit' },
-        { id: 4, title: 'Electric Bill', date: 'Feb 20, 2026', amount: -120.50, type: 'debit' }
-    ];
+    const [recentTransactions,setRecentTransactions] = useState([]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:9090/transaction/${user.id}`)
+            .then(response => {
+                setRecentTransactions(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
+
+    useEffect(() => {
+        console.log(recentTransactions);
+    }, [recentTransactions]);
 
     return (
         <div className="dashboard-container">
@@ -86,15 +96,15 @@ const Dashboard = () => {
                                 <div key={t.id} className="transaction-item">
                                     <div className="t-info">
                                         <div className="t-icon">
-                                            {t.type === 'credit' ? '↓' : '↑'}
+                                            {t.type === 'DEPOSIT' ? '↓' : '↑'}
                                         </div>
                                         <div className="t-details">
-                                            <h4>{t.title}</h4>
+                                            <h4>{t.description}</h4>
                                             <span className="t-date">{t.date}</span>
                                         </div>
                                     </div>
-                                    <span className={`t-amount ${t.type === 'credit' ? 'positive' : 'negative'}`}>
-                                        {t.type === 'credit' ? '+' : ''}{t.amount.toFixed(2)}
+                                    <span className={`t-amount ${t.type === 'DEPOSIT' ? 'positive' : 'negative'}`}>
+                                        {t.type === 'DEPOSIT' ? '+' : ''}{t.amount.toFixed(2)}
                                     </span>
                                 </div>
                             ))}
