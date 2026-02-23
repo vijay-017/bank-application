@@ -208,8 +208,46 @@ button:active {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Password Toggle Styles */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+    padding-right: 45px !important;
+    /* Make room for the eye icon */
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    width: auto !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    z-index: 10;
+}
+
+.password-toggle-btn:hover {
+    color: #374151;
 }
