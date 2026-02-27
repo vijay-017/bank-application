@@ -2,7 +2,7 @@ import '../styles/pages/Home.css';
 import { Link } from 'react-router-dom';
 
 function Home() {
-    
+
 
     return (
         <div className="home-container">
@@ -14,8 +14,8 @@ function Home() {
                 </div>
                 <ul className="nav-links">
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li><Link to="/services">Services</Link></li>
+                    <li><Link to="/about">About</Link></li>
                 </ul>
                 <div className="auth-buttons">
                     <Link to="/login" className="btn-text">Login</Link>

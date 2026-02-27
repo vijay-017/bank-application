@@ -6,6 +6,8 @@ import AccountSummary from './pages/AccountSummary.jsx'
 import TransactionHistory from './pages/TransactionHistory.jsx'
 import Profile from './pages/Profile.jsx'
 import FundTransfer from './pages/FundTransfer.jsx'
+import Services from './pages/Services.jsx'
+import About from './pages/About.jsx'
 import { Routes, Route } from 'react-router-dom'
 
 
@@ -20,6 +22,8 @@ function App() {
       <Route path="/transactions" element={<TransactionHistory />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/fund-transfer" element={<FundTransfer />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   )
 }
