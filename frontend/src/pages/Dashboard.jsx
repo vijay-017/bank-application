@@ -120,7 +120,7 @@ const Dashboard = () => {
                                 <div className="action-icon">💳</div>
                                 <span className="action-label">Account Info</span>
                             </div>
-                            <div className="action-item">
+                            <div className="action-item" onClick={() => navigate('/invest', { state: user })}>
                                 <div className="action-icon">📊</div>
                                 <span className="action-label">Invest</span>
                             </div>
