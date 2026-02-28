@@ -112,7 +112,7 @@ const Dashboard = () => {
                                 <div className="action-icon">🧾</div>
                                 <span className="action-label">Pay Bills</span>
                             </div>
-                            <div className="action-item">
+                            <div className="action-item" onClick={() => navigate('/recharge', { state: user })}>
                                 <div className="action-icon">📱</div>
                                 <span className="action-label">Recharge</span>
                             </div>

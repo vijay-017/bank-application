@@ -9,6 +9,7 @@ import FundTransfer from './pages/FundTransfer.jsx'
 import Services from './pages/Services.jsx'
 import About from './pages/About.jsx'
 import PayBill from './pages/PayBill.jsx'
+import Recharge from './pages/Recharge.jsx'
 import { Routes, Route } from 'react-router-dom'
 
 
@@ -26,6 +27,7 @@ function App() {
       <Route path="/services" element={<Services />} />
       <Route path="/about" element={<About />} />
       <Route path="/pay-bill" element={<PayBill />} />
+      <Route path="/recharge" element={<Recharge />} />
     </Routes>
   )
 }
