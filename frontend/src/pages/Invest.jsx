@@ -81,7 +81,7 @@ const Invest = () => {
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    Back to Dashboard
+                    <span className="back-text">Back to Dashboard</span>
                 </button>
                 <div className="header-center">
                     <h1>Wealth Builder</h1>
